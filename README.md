@@ -1,6 +1,6 @@
 # SetOperator
 
-Welcome to the SetOperator program, a specialized tool designed to efficiently manage and manipulate sets in computing. In the realm of mathematics, particularly in Set Theory, a set is a fundamental concept representing a collection of distinct objects, each referred to as an element. The pivotal relationship in set theory is the membership relation, which establishes whether an element belongs to a specific set or not. Sets have a wide range of applications in computer systems, featuring prominently in various programming languages as a Data Structure (DS) and in solving mathematical, optimization, and statistical problems.
+Welcome to the SetOperator program, a specialized tool designed to manage and manipulate sets in computing. In the realm of mathematics, particularly in Set Theory, a set is a fundamental concept representing a collection of distinct objects, each referred to as an element. The pivotal relationship in set theory is the membership relation, which establishes whether an element belongs to a specific set or not. Sets have a wide range of applications in computer systems, featuring prominently in various programming languages as a Data Structure (DS) and in solving mathematical, optimization, and statistical problems.
 
 ## Objective
 The primary objective of SetOperator is to implement the Abstract Data Type (ADT) for sets in such a way that the chosen Data Structure facilitates the execution of specific operations with the lowest possible computational complexity. The program focuses on two categories of operations:
@@ -37,7 +37,7 @@ To use SetOperator, follow the instructions below:
 2. Navigate to the project directory
 
     ```bash
-    cd SkipDict
+    cd SetOperator
     ```
 
 ### Usage

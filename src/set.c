@@ -9,7 +9,7 @@ typedef struct node_ {
     NODE *left;
     NODE *right;
     int height;
-};
+} NODE ;
 
 struct set_ {
     NODE *root;
@@ -19,8 +19,8 @@ struct set_ {
 // auxiliar functions
     void destroyAux(NODE *root) {
         if (root) {
-            destroyAux_set(root->left);
-            destroyAux_set(root->right);
+            destroyAux(root->left);
+            destroyAux(root->right);
             delete_item(&(root->item));
             free(root);
         }
@@ -43,12 +43,13 @@ struct set_ {
     }
 
     NODE *rightRotation(NODE *a) {
-        NODE *b = a->left;
+        NODE *b = a-> left;
         a->left = b->right;
         b->right = a;
 
         a->height = max(height(a->left), height(a->right)) + 1;
-        b->height = max(height(b->left), height(a->height)) + 1;
+        b->height = max(height(b->right), a->height) + 1;
+
         return b;
     }
 
@@ -58,7 +59,7 @@ struct set_ {
         b->left = a;
 
         a->height = max(height(a->left), height(a->right)) + 1;
-        b->height = max(height(b->right), height(a->height)) + 1;
+        b->height = max(height(b->right), a->height) + 1;
 
         return b;
     }
@@ -73,6 +74,17 @@ struct set_ {
         return leftRotation(a);
     }
 
+    NODE *insertNode(NODE *root, NODE * node){
+        if(!root) root = node;
+        else if(getKey_item(node->item) < getKey_item(root->item))
+            root->left = insertNode(root->left, node);
+        else if(getKey_item(node->item) > getKey_item(root->item))
+            root->right = insertNode(root->right, node);
+
+        root->height = max(height(root->left), height(root->right)) + 1;
+
+        return root;
+    }
 // basic operations
 
     SET *create_set() {
@@ -88,7 +100,16 @@ struct set_ {
         destroyAux((*sp)->root);
         free(*sp);
         *sp = NULL;
-}
+        return true;
+    }
 
-    bool addElement_set(SET *sp, int ele) {
+    bool addElement_set(SET *sp, ITEM * ele) {
+        NODE * new;
+        if(!sp) return false;
+        new = nodeCreator(ele);
+        if(new){
+            sp->root = insertNode(sp->root, new);
+            return true;
+        }
+        return false;
     }

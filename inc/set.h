@@ -1,11 +1,13 @@
 #ifndef SET_H
 #define SET_H
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "../inc/item.h"
+
+// for AVL Tree
+#define max(a, b) ((a > b) ? a : b)
 
 typedef struct set_ SET;
 
@@ -20,6 +22,5 @@ void print_set(SET *sp);
 bool isMember_set(SET *sp, int ele);
 SET *union_set(SET *sp1, SET *sp2);
 SET *intersection_set(SET *sp1, SET *sp2);
-
 
 #endif

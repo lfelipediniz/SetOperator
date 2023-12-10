@@ -1,22 +1,22 @@
 #include "../inc/set.h"
 
-// Data Struct choisen: AVL Tree
+// Data Struct chosen: AVL Tree
 
-typedef struct node_ NODE;
 
-typedef struct node_ {
+struct node_ {
     ITEM *item;
     NODE *left;
     NODE *right;
     int height;
-} NODE;
-
+};
 struct set_ {
     NODE *root;
     int depth;
 };
+// --------------------------------------------------------------------------------------------------------------------------
+//                                              auxiliar functions
+// --------------------------------------------------------------------------------------------------------------------------
 
-// auxiliar functions
 void destroyAux(NODE *root) {
     if (root) {
         destroyAux(root->left);
@@ -164,7 +164,19 @@ void printInOrder(NODE *root) {
     }
 }
 
-// basic operations
+void *aux_union(SET *uni, NODE *root){
+    addElement_set(uni, root->item);
+    if (root->left != NULL){
+        aux_union(uni, root->left);
+    }
+    if (root->right != NULL){
+        aux_union(uni, root->right);
+    }
+}
+
+// --------------------------------------------------------------------------------------------------------------------------
+//                                                   basic operations
+// --------------------------------------------------------------------------------------------------------------------------
 
 SET *create_set() {
     SET *sp = (SET *)malloc(sizeof(SET));
@@ -202,3 +214,29 @@ void print_set(SET *sp) {
     if (!sp) return;
     printInOrder(sp->root);
 }
+
+int search(SET *sp, int key){
+    NODE *temp = sp->root;
+    while(temp != NULL){
+        if(key != getKey_item(temp->item)){
+            return 1;
+        } else if (key > getKey_item(temp->item)){
+            temp = temp -> right;
+        } else {
+            temp = temp -> left;
+        }
+    }
+    return 0;
+}
+
+// --------------------------------------------------------------------------------------------------------------------------
+//                                               specific operations
+// --------------------------------------------------------------------------------------------------------------------------
+
+SET *union_set(SET *sp1, SET *sp2){
+    SET *uni = create_set();
+    aux_union(uni, sp1->root);
+    aux_union(uni, sp2->root);
+    return uni;
+}
+

@@ -14,6 +14,8 @@ int main() {
    ITEM * item8 = create_item(8);
    ITEM * item9 = create_item(9);
    ITEM * item10 = create_item(10);
+   
+   
 
    addElement_set(sp, item1);
    addElement_set(sp, item2);

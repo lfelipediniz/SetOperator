@@ -2,7 +2,6 @@
 
 // Data Struct chosen: AVL Tree
 
-
 struct node_ {
     ITEM *item;
     NODE *left;
@@ -13,6 +12,7 @@ struct set_ {
     NODE *root;
     int depth;
 };
+
 // --------------------------------------------------------------------------------------------------------------------------
 //                                              auxiliar functions
 // --------------------------------------------------------------------------------------------------------------------------
@@ -164,12 +164,12 @@ void printInOrder(NODE *root) {
     }
 }
 
-void *aux_union(SET *uni, NODE *root){
+void *aux_union(SET *uni, NODE *root) {
     addElement_set(uni, root->item);
-    if (root->left != NULL){
+    if (root->left != NULL) {
         aux_union(uni, root->left);
     }
-    if (root->right != NULL){
+    if (root->right != NULL) {
         aux_union(uni, root->right);
     }
 }
@@ -215,15 +215,15 @@ void print_set(SET *sp) {
     printInOrder(sp->root);
 }
 
-int search(SET *sp, int key){
+int search(SET *sp, int key) {
     NODE *temp = sp->root;
-    while(temp != NULL){
-        if(key != getKey_item(temp->item)){
+    while (temp != NULL) {
+        if (key != getKey_item(temp->item)) {
             return 1;
-        } else if (key > getKey_item(temp->item)){
-            temp = temp -> right;
+        } else if (key > getKey_item(temp->item)) {
+            temp = temp->right;
         } else {
-            temp = temp -> left;
+            temp = temp->left;
         }
     }
     return 0;
@@ -233,10 +233,50 @@ int search(SET *sp, int key){
 //                                               specific operations
 // --------------------------------------------------------------------------------------------------------------------------
 
-SET *union_set(SET *sp1, SET *sp2){
+SET *union_set(SET *sp1, SET *sp2) {
     SET *uni = create_set();
     aux_union(uni, sp1->root);
     aux_union(uni, sp2->root);
     return uni;
 }
 
+// forward declaration for recursive helper function
+void printSubtree(NODE *node);
+
+//  print a single node and its children
+void printNode(NODE *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    int key = getKey_item(node->item);
+    printf("%d: ", key);
+    printSubtree(node);
+
+}
+
+// recursive helper function to print the children of a node
+void printSubtree(NODE *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    if (node->left == NULL && node->right == NULL) {
+        printf("{}");
+    } else {
+        printf("{");
+        if (node->left != NULL) {
+            printNode(node->left);
+            if (node->right != NULL) {
+                printf(", ");
+            }
+        }
+        if (node->right != NULL) {
+            printNode(node->right);
+        }
+        printf("}");
+    }
+}
+
+// wrapper function to print the entire tree
+void printAVLTree(SET *set) { printNode(set->root); }

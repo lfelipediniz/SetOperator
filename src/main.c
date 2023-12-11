@@ -1,34 +1,20 @@
-# include "../inc/set.h"
+#include "../inc/set.h"
 
 int main() {
+    SET *mySet = create_set();
+    // You would add elements to the AVL tree here, like this:
+    addElement_set(mySet, create_item(10));
+    addElement_set(mySet, create_item(20));
+    addElement_set(mySet, create_item(50));
+    addElement_set(mySet, create_item(2));
+    addElement_set(mySet, create_item(7));
 
-   SET * sp = create_set();
+    // print the tree of set indexes
+    printAVLTree(mySet);
 
-   ITEM * item1 = create_item(1);
-   ITEM * item2 = create_item(2);
-   ITEM * item3 = create_item(3);
-   ITEM * item4 = create_item(4);
-   ITEM * item5 = create_item(5);
-   ITEM * item6 = create_item(6);
-   ITEM * item7 = create_item(7);
-   ITEM * item8 = create_item(8);
-   ITEM * item9 = create_item(9);
-   ITEM * item10 = create_item(10);
-   
-   
+    // Clean up
+    destroy_set(&mySet);
 
-   addElement_set(sp, item1);
-   addElement_set(sp, item2);
-   addElement_set(sp, item3);
-   addElement_set(sp, item4);
-   addElement_set(sp, item5);
-   addElement_set(sp, item6);
-   addElement_set(sp, item7);
-   addElement_set(sp, item8);
-   addElement_set(sp, item9);
-   addElement_set(sp, item10);
-
-   print_set(sp);
-   
-   return 0;
+    printf("\n");
+    return 0;
 }

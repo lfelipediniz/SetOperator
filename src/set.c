@@ -240,7 +240,10 @@ bool removeElement_set(SET *sp, ITEM *ele) {
 }
 
 // wrapper function to print the entire tree
-void print_set(SET *set) { printNode(set->root); }
+void print_set(SET *set) {
+    printf("\n");
+    printNode(set->root);
+}
 
 int search(SET *sp, int key) {
     NODE *temp = sp->root;

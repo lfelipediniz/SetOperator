@@ -1,15 +1,8 @@
 create-set conjuntoA
 create-set conjuntoB
 addItem-set conjuntoA 9
-addItem-set conjuntoA 8
-addItem-set conjuntoA 32
-addItem-set conjuntoA 93
-addItem-set conjuntoA 2
-addItem-set conjuntoB 32
-addItem-set conjuntoB 93
-addItem-set conjuntoB 234
-addItem-set conjuntoB 21
-addItem-set conjuntoB 223
+addItem-set conjuntoA 2, 45, 43, 19, 78
+addItem-set conjuntoB 32, 3, 1, 2, 19, 34
 belong-set conjuntoA 9
 removeItem-set conjuntoA 9
 belong-set conjuntoA 9

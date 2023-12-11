@@ -26,7 +26,6 @@ bool isMember_set(SET *sp, int ele);
 SET *union_set(SET *sp1, SET *sp2);
 SET *intersection_set(SET *sp1, SET *sp2);
 
-// debug
-void printAVLTree(SET *set);
+
 
 #endif

@@ -156,14 +156,6 @@ NODE *removeElementAux(NODE **root, int key) {
     return (*root);
 }
 
-void printInOrder(NODE *root) {
-    if (root) {
-        printInOrder(root->left);
-        print_item(root->item);
-        printInOrder(root->right);
-    }
-}
-
 void *aux_union(SET *uni, NODE *root) {
     addElement_set(uni, root->item);
     if (root->left != NULL) {
@@ -210,36 +202,6 @@ bool removeElement_set(SET *sp, ITEM *ele) {
     return removeElementAux(&(sp->root), getKey_item(ele));
 }
 
-void print_set(SET *sp) {
-    if (!sp) return;
-    printInOrder(sp->root);
-}
-
-int search(SET *sp, int key) {
-    NODE *temp = sp->root;
-    while (temp != NULL) {
-        if (key != getKey_item(temp->item)) {
-            return 1;
-        } else if (key > getKey_item(temp->item)) {
-            temp = temp->right;
-        } else {
-            temp = temp->left;
-        }
-    }
-    return 0;
-}
-
-// --------------------------------------------------------------------------------------------------------------------------
-//                                               specific operations
-// --------------------------------------------------------------------------------------------------------------------------
-
-SET *union_set(SET *sp1, SET *sp2) {
-    SET *uni = create_set();
-    aux_union(uni, sp1->root);
-    aux_union(uni, sp2->root);
-    return uni;
-}
-
 // forward declaration for recursive helper function
 void printSubtree(NODE *node);
 
@@ -279,4 +241,31 @@ void printSubtree(NODE *node) {
 }
 
 // wrapper function to print the entire tree
-void printAVLTree(SET *set) { printNode(set->root); }
+void print_set(SET *set) { printNode(set->root); }
+
+
+int search(SET *sp, int key) {
+    NODE *temp = sp->root;
+    while (temp != NULL) {
+        if (key != getKey_item(temp->item)) {
+            return 1;
+        } else if (key > getKey_item(temp->item)) {
+            temp = temp->right;
+        } else {
+            temp = temp->left;
+        }
+    }
+    return 0;
+}
+
+// --------------------------------------------------------------------------------------------------------------------------
+//                                               specific operations
+// --------------------------------------------------------------------------------------------------------------------------
+
+SET *union_set(SET *sp1, SET *sp2) {
+    SET *uni = create_set();
+    aux_union(uni, sp1->root);
+    aux_union(uni, sp2->root);
+    return uni;
+}
+

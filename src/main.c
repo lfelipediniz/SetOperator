@@ -10,7 +10,7 @@ int main() {
     addElement_set(mySet, create_item(7));
 
     // print the tree of set indexes
-    printAVLTree(mySet);
+    print_set(mySet);
 
     // Clean up
     destroy_set(&mySet);

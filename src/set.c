@@ -193,13 +193,29 @@ void printSubtree(NODE *node) {
     }
 }
 
-void *aux_union(SET *uni, NODE *root) {
+void aux_union(SET *uni, NODE *root) {
     addElement_set(uni, root->item);
     if (root->left != NULL) {
         aux_union(uni, root->left);
     }
     if (root->right != NULL) {
         aux_union(uni, root->right);
+    }
+}
+
+bool isMember_aux(NODE *node, int key) {
+    if (node == NULL) {
+        return false;  // reached leaf, element not found
+    }
+
+    int nodeKey = getKey_item(node->item);
+
+    if (key == nodeKey) {
+        return true;  // found element
+    } else if (key < nodeKey) {
+        return isMember_aux(node->left, key);  // search in the left subtree
+    } else {
+        return isMember_aux(node->right, key);  // search in the right subtree
     }
 }
 
@@ -245,23 +261,13 @@ void print_set(SET *set) {
     printNode(set->root);
 }
 
-int search(SET *sp, int key) {
-    NODE *temp = sp->root;
-    while (temp != NULL) {
-        if (key != getKey_item(temp->item)) {
-            return 1;
-        } else if (key > getKey_item(temp->item)) {
-            temp = temp->right;
-        } else {
-            temp = temp->left;
-        }
-    }
-    return 0;
-}
-
 // --------------------------------------------------------------------------------------------------------------------------
 //                                               specific operations
 // --------------------------------------------------------------------------------------------------------------------------
+
+bool isMember_set(SET *sp, ITEM *ele) {
+    return isMember_aux(sp->root, getKey_item(ele));
+}
 
 SET *union_set(SET *sp1, SET *sp2) {
     SET *uni = create_set();
@@ -269,3 +275,5 @@ SET *union_set(SET *sp1, SET *sp2) {
     aux_union(uni, sp2->root);
     return uni;
 }
+
+

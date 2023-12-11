@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <math.h>
 #include "../inc/item.h"
 
 // for AVL Tree
@@ -19,10 +18,9 @@ bool destroy_set(SET **sp);
 bool addElement_set(SET *sp, ITEM * ele);
 bool removeElement_set(SET *sp, ITEM * ele);
 void print_set(SET *sp);
-int search(SET *sp, int key);
 
 // specific operations
-bool isMember_set(SET *sp, int ele);
+bool isMember_set(SET *sp, ITEM * ele);
 SET *union_set(SET *sp1, SET *sp2);
 SET *intersection_set(SET *sp1, SET *sp2);
 

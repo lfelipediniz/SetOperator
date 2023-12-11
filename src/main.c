@@ -1,5 +1,5 @@
 #include "set.h"
-#include <string.h>
+
 
 #define MAX_SETS 10
 
@@ -15,6 +15,20 @@ SET *find_set(char *name) {
     return NULL;
 }
 
+void list_sets() {
+    if (num_sets == 0) {
+        printf("Nenhum conjunto foi criado ainda.\n");
+        return;
+    }
+
+    printf("Conjuntos criados:\n");
+    for (int i = 0; i < num_sets; i++) {
+        char *setName = getName_set(sets[i]);
+        if (setName != NULL) {
+            printf(" - %s\n", setName);
+        }
+    }
+}
 
 int main() {
     char command[100];
@@ -41,6 +55,8 @@ int main() {
             } else {
                 printf("Conjunto não encontrado.\n");
             }
+        } else if (strcmp(command, "list") == 0) {
+            list_sets();
         }
         // Adicione aqui mais comandos conforme necessário.
     }

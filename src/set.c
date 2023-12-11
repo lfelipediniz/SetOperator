@@ -250,6 +250,15 @@ void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
     inOrder_interSectionAux(node->right, intersection, other);
 }
 
+
+char *strdup_auxNameSetCreator(const char *s) {
+    char *d = malloc(strlen(s) + 1); // reserve memory for string
+    if (d == NULL) return NULL;      // checks whether the allocation was successful
+    strcpy(d, s);                    // copy a string
+    return d;
+}
+
+
 // --------------------------------------------------------------------------------------------------------------------------
 //                                                   basic operations
 // --------------------------------------------------------------------------------------------------------------------------
@@ -260,17 +269,30 @@ SET *create_set(char *name) {
     if (sp) {
         sp->root = NULL;
         sp->depth = -1;
-        sp->name = name;
+        sp->name = strdup_auxNameSetCreator(name);
     }
+    // if the name is NULL, the set is not created
+    if (!sp->name) {
+        free(sp);
+        return NULL;
+    }
+
     return sp;
 }
 
 // destroys a set and frees its memory
 bool destroy_set(SET **sp) {
-    destroyAux((*sp)->root);
-    free(*sp);
-    *sp = NULL;
-    return true;
+    if (sp != NULL && *sp != NULL) {
+        destroyAux((*sp)->root); // detroys the AVL tree inside the set
+
+        free((*sp)->name); // free the memory allocated for the name
+        (*sp)->name = NULL; // evite dangling pointer
+
+        free(*sp); // free the memory allocated for the set
+        *sp = NULL; // evite dangling pointer
+        return true;
+    }
+    return false;
 }
 
 // adds an element to the set

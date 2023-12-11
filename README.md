@@ -93,13 +93,34 @@ To manage sets effectively, users have access to a variety of commands. Each com
     delete-set <set name>
     ```
 
-3. A
+3. Add a numeric item to the set
 
     ```bash
-    delete-set <set name>
+    addItem-set <set name> <item>, <item2>
+    ```
+4. Remove a numeric item to the set
+
+    ```bash
+    removeItem-set <set name> <item>, <item2>
     ```
 
+5. Check if an item belongs to the set
 
+    ```bash
+    belong-set <set name> <item>
+    ```
+
+5. Create a new set from the union of two others
+
+    ```bash
+    union-set <set1 name> <set2 name> <union set name>
+    ```
+
+6. Create a new set from the intersection of two others
+
+    ```bash
+    intersection-set <set1 name> <set2 name> <intersection set name>
+    ```
 
 ### Explaining the use in more detail
 

@@ -165,7 +165,7 @@ int main() {
             if (set != NULL) {
                 char items[100];
                 scanf(" %[^\n]",
-                      items);  // Lê a linha inteira após o nome do conjunto
+                      items);  // reads the whole line after the set name
                 addMultipleItems(set, items);
             } else {
                 printf("Set not found.\n");
@@ -176,7 +176,7 @@ int main() {
             if (set != NULL) {
                 char items[100];
                 scanf(" %[^\n]",
-                      items);  // Lê a linha inteira após o nome do conjunto
+                      items);  // reads the whole line after the set name
                 removeMultipleItems(set, items);
             } else {
                 printf("Set not found.\n");

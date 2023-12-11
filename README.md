@@ -40,9 +40,11 @@ To use SetOperator, follow the instructions below:
     cd SetOperator
     ```
 
-### Usage
+### Run
 
-1. Compile and run the program using the provided Makefile
+You can test the program manually through the Makefile
+
+1. Give permission for the script to become executable
 
     ```bash
     make
@@ -60,9 +62,49 @@ To use SetOperator, follow the instructions below:
     make clean
     ```
 
+
+Or use the sh script that runs all test cases present in the test folder, indicating which cases passed
+
+1. Compile and run the program using the provided Makefile
+
+    ```bash
+    sudo chmod +x runTests.sh
+    ```
+
+2. Execute the case tests
+
+    ```bash
+    ./runTests.sh
+    ```
+
+## Usage
+
+To manage sets effectively, users have access to a variety of commands. Each command is to be used within code blocks for clarity. Here’s a breakdown of these commands:
+
+1. Create a new set
+
+    ```bash
+    create-set <set name>
+    ```
+
+2. Delete an existing set
+
+    ```bash
+    delete-set <set name>
+    ```
+
+3. A
+
+    ```bash
+    delete-set <set name>
+    ```
+
+
+
 ### Explaining the use in more detail
 
 ## Test case
+All test cases are in the test folder
 
 
 ## Authors

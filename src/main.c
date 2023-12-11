@@ -69,6 +69,31 @@ void exitProgram() {
     exit(0);
 }
 
+// adds several items at once to the set, separating them with a comma
+void addMultipleItems(SET *set, char *items) {
+    char *token = strtok(items, ", ");
+    while (token != NULL) {
+        int itemKey = atoi(token);
+        addElement_set(set, create_item(itemKey));
+        token = strtok(NULL, ", ");
+    }
+}
+
+// equal to add multiple items, but with additional checks in case the user tries to remove an item that does not exist
+void removeMultipleItems(SET *set, char *items) {
+    char *token = strtok(items, ", "); // divide string in sub-strings
+    while (token != NULL) {
+        int itemKey = atoi(token);
+        ITEM *item = create_item(itemKey);
+        if (isMember_set(set, item)) {
+            removeElement_set(set, item);
+        } else {
+            printf("Item %d not found in set.\n", itemKey);
+        }
+        token = strtok(NULL, ", ");
+    }
+}
+
 /*
 
 How it works:
@@ -132,27 +157,33 @@ int main() {
             } else {
                 printf("Set not found.\n");
             }
-        } else if (strcmp(command, "removeItem-set") == 0) {
-            scanf("%s %d", setName, &itemKey);
+        }
+
+        else if (strcmp(command, "addItem-set") == 0) {
+            scanf("%s", setName);
             SET *set = find_set(setName);
             if (set != NULL) {
-                if (!removeElement_set(set, create_item(itemKey))) {
-                    printf("Failed to remove item or item not found.\n");
-                }
+                char items[100];
+                scanf(" %[^\n]",
+                      items);  // Lê a linha inteira após o nome do conjunto
+                addMultipleItems(set, items);
+            } else {
+                printf("Set not found.\n");
+            }
+        } else if (strcmp(command, "removeItem-set") == 0) {
+            scanf("%s", setName);
+            SET *set = find_set(setName);
+            if (set != NULL) {
+                char items[100];
+                scanf(" %[^\n]",
+                      items);  // Lê a linha inteira após o nome do conjunto
+                removeMultipleItems(set, items);
             } else {
                 printf("Set not found.\n");
             }
         }
 
-        else if (strcmp(command, "addItem-set") == 0) {
-            scanf("%s %d", setName, &itemKey);
-            SET *set = find_set(setName);
-            if (set != NULL) {
-                addElement_set(set, create_item(itemKey));
-            } else {
-                printf("Set not found.\n");
-            }
-        } else if (strcmp(command, "list-set") == 0) {
+        else if (strcmp(command, "list-set") == 0) {
             list_sets();
         } else if (strcmp(command, "exit") == 0) {
             exitProgram();
@@ -189,22 +220,20 @@ int main() {
                     destroy_set(&newSet);
                 }
             }
-        } else if(strcmp(command, "belong-set") == 0){
+        } else if (strcmp(command, "belong-set") == 0) {
             scanf("%s %d", setName, &itemKey);
             SET *set = find_set(setName);
             if (set != NULL) {
                 if (isMember_set(set, create_item(itemKey))) {
                     printf("The item belongs to the set.\n");
-                }
-                else {
+                } else {
                     printf("The item does not belong to the set.\n");
                 }
             } else {
                 printf("Set not found.\n");
             }
         }
-        
-        
+
         else {
             printf("Command not recognized.\n");
         }

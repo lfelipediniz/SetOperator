@@ -1,0 +1,13 @@
+The item belongs to the set.
+The item does not belong to the set.
+
+Sets created:
+ - conjuntoA
+ - conjuntoB
+ - conjuntoIntersection
+ - conjuntoUnion
+
+
+32: {93: {}}
+
+32: {8: {2: {}}, 93: {}}

@@ -10,20 +10,14 @@ addItem-set conjuntoB 93
 addItem-set conjuntoB 234
 addItem-set conjuntoB 21
 addItem-set conjuntoB 223
+belong-set conjuntoA 9
 removeItem-set conjuntoA 9
-
-
-
-
-
-
-
-
-
-
-
-
-
+belong-set conjuntoA 9
+intersection-set conjuntoA conjuntoB conjuntoIntersection
+union-set conjuntoIntersection conjuntoA conjuntoUnion
+list-set
+print-set conjuntoIntersection
+print-set conjuntoUnion
 exit
 
 Here you can type what you want to explain why the program has already been closed

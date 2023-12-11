@@ -1,3 +1,3 @@
 create-set alek
-list
+list-set
 exit

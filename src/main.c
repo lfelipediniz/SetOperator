@@ -93,7 +93,7 @@ intersection-set <name of set A> <name of set B> <intersection name>
 if you want to know if an item belongs to the set, do the following command
 belong-set <set name> <item key>
 
-The user can also list the sets created with the command: list
+The user can also list the sets created with the command: list-set
 and exit the program whenever you want with: exit
 */
 
@@ -152,7 +152,7 @@ int main() {
             } else {
                 printf("Set not found.\n");
             }
-        } else if (strcmp(command, "list") == 0) {
+        } else if (strcmp(command, "list-set") == 0) {
             list_sets();
         } else if (strcmp(command, "exit") == 0) {
             exitProgram();

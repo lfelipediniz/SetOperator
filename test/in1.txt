@@ -1,0 +1,3 @@
+create-set alek
+list
+exit

@@ -156,6 +156,43 @@ NODE *removeElementAux(NODE **root, int key) {
     return (*root);
 }
 
+// forward declaration for recursive helper function
+void printSubtree(NODE *node);
+
+//  print a single node and its children
+void printNode(NODE *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    int key = getKey_item(node->item);
+    printf("%d: ", key);
+    printSubtree(node);
+}
+
+// recursive helper function to print the children of a node
+void printSubtree(NODE *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    if (node->left == NULL && node->right == NULL) {
+        printf("{}");
+    } else {
+        printf("{");
+        if (node->left != NULL) {
+            printNode(node->left);
+            if (node->right != NULL) {
+                printf(", ");
+            }
+        }
+        if (node->right != NULL) {
+            printNode(node->right);
+        }
+        printf("}");
+    }
+}
+
 void *aux_union(SET *uni, NODE *root) {
     addElement_set(uni, root->item);
     if (root->left != NULL) {
@@ -202,47 +239,8 @@ bool removeElement_set(SET *sp, ITEM *ele) {
     return removeElementAux(&(sp->root), getKey_item(ele));
 }
 
-// forward declaration for recursive helper function
-void printSubtree(NODE *node);
-
-//  print a single node and its children
-void printNode(NODE *node) {
-    if (node == NULL) {
-        return;
-    }
-
-    int key = getKey_item(node->item);
-    printf("%d: ", key);
-    printSubtree(node);
-
-}
-
-// recursive helper function to print the children of a node
-void printSubtree(NODE *node) {
-    if (node == NULL) {
-        return;
-    }
-
-    if (node->left == NULL && node->right == NULL) {
-        printf("{}");
-    } else {
-        printf("{");
-        if (node->left != NULL) {
-            printNode(node->left);
-            if (node->right != NULL) {
-                printf(", ");
-            }
-        }
-        if (node->right != NULL) {
-            printNode(node->right);
-        }
-        printf("}");
-    }
-}
-
 // wrapper function to print the entire tree
 void print_set(SET *set) { printNode(set->root); }
-
 
 int search(SET *sp, int key) {
     NODE *temp = sp->root;
@@ -268,4 +266,3 @@ SET *union_set(SET *sp1, SET *sp2) {
     aux_union(uni, sp2->root);
     return uni;
 }
-

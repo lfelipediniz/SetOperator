@@ -1,10 +1,22 @@
+/*
+    Created by:
+    Luiz Felipe Diniz Costa - 13782032
+    Nicolas Carreiro Rodrigues - 14600801
+*/
+
 #include "set.h"
 
+/* maximum number of sets that can exist at a time, it is up to the user to
+ * increase or decrease */
 #define MAX_SETS 10
 
+// auxiliary array to have control over the created sets
 SET *sets[MAX_SETS];
+
+// number of sets counter
 int num_sets = 0;
 
+// find a set by name in the sets array
 SET *find_set(char *name) {
     for (int i = 0; i < num_sets; i++) {
         char *setName = getName_set(sets[i]);
@@ -13,13 +25,14 @@ SET *find_set(char *name) {
     return NULL;
 }
 
+// list all sets created
 void list_sets() {
     if (num_sets == 0) {
-        printf("Nenhum conjunto foi criado ainda.\n");
+        printf("No sets have been created yet.\n");
         return;
     }
 
-    printf("Conjuntos criados:\n");
+    printf("Sets created:\n");
     for (int i = 0; i < num_sets; i++) {
         char *setName = getName_set(sets[i]);
         if (setName != NULL) {
@@ -28,6 +41,7 @@ void list_sets() {
     }
 }
 
+// as its representative in the auxiliary array, the set is also deleted
 bool delete_set(char *name) {
     for (int i = 0; i < num_sets; i++) {
         if (strcmp(getName_set(sets[i]), name) == 0) {
@@ -42,8 +56,10 @@ bool delete_set(char *name) {
     return false;
 }
 
+// check if a name is available to be used, cannot have a repeated name
 bool nameAvail(char *name) { return find_set(name) == NULL; }
 
+// exit the program, destroying all sets
 void exitProgram() {
     int i;
     for (i = 0; i < num_sets; i++) {
@@ -52,6 +68,32 @@ void exitProgram() {
 
     exit(0);
 }
+
+/*
+
+How it works:
+
+The user has the power to create and remove sets, with these commands:
+
+create-set <set name>
+delete-set <set name>
+
+The user can add and remove an item in a specific set, like this:
+
+addItem-set <set name> <item key>
+removeItem-set <set name> <key to item>
+
+The program gives you the power to create union and intersecting sets, as
+well:
+
+union-set <name of set A> <name of set B> <union name>
+
+intersection-set <name of set A> <name of set B> <intersection name>
+
+
+The user can also list the sets created with the command: list
+and exit the program whenever you want with: exit
+*/
 
 int main() {
     char command[100];
@@ -64,13 +106,13 @@ int main() {
 
         if (strcmp(command, "create-set") == 0) {
             if (num_sets >= MAX_SETS) {
-                printf("Limite de conjuntos atingido.\n");
+                printf("Set limit reached!\n");
                 continue;
             }
 
             scanf("%s", setName);
             if (!nameAvail(setName)) {
-                printf("O nome '%s' já está em uso.\n", setName);
+                printf("The name '%s' is already in use.\n", setName);
                 continue;
             }
 
@@ -78,7 +120,7 @@ int main() {
         } else if (strcmp(command, "delete-set") == 0) {
             scanf("%s", setName);
             if (!delete_set(setName)) {
-                printf("Conjunto não encontrado.\n");
+                printf("Set not found.\n");
             }
         } else if (strcmp(command, "print-set") == 0) {
             scanf("%s", setName);
@@ -86,17 +128,17 @@ int main() {
             if (set != NULL) {
                 print_set(set);
             } else {
-                printf("Conjunto não encontrado.\n");
+                printf("Set not found.\n");
             }
         } else if (strcmp(command, "removeItem-set") == 0) {
             scanf("%s %d", setName, &itemKey);
             SET *set = find_set(setName);
             if (set != NULL) {
                 if (!removeElement_set(set, create_item(itemKey))) {
-                    printf("Falha ao remover o item ou item não encontrado.\n");
+                    printf("Failed to remove item or item not found.\n");
                 }
             } else {
-                printf("Conjunto não encontrado.\n");
+                printf("Set not found.\n");
             }
         }
 
@@ -106,7 +148,7 @@ int main() {
             if (set != NULL) {
                 addElement_set(set, create_item(itemKey));
             } else {
-                printf("Conjunto não encontrado.\n");
+                printf("Set not found.\n");
             }
         } else if (strcmp(command, "list") == 0) {
             list_sets();
@@ -118,7 +160,7 @@ int main() {
             scanf("%s %s %s", setNameA, setNameB, newName);
 
             if (!nameAvail(newName)) {
-                printf("O nome '%s' já está em uso.\n", newName);
+                printf("The name '%s' is already in use.\n", newName);
                 continue;
             }
 
@@ -126,7 +168,7 @@ int main() {
             SET *setB = find_set(setNameB);
 
             if (setA == NULL || setB == NULL) {
-                printf("Um ou ambos os conjuntos não foram encontrados.\n");
+                printf("One or both sets were not found.\n");
                 continue;
             }
 
@@ -140,15 +182,13 @@ int main() {
             if (newSet != NULL && num_sets < MAX_SETS) {
                 sets[num_sets++] = newSet;
             } else {
-                printf(
-                    "Falha ao criar o conjunto ou limite de conjuntos "
-                    "atingido.\n");
+                printf("Failed to create set or set limit hit.\n");
                 if (newSet != NULL) {
                     destroy_set(&newSet);
                 }
             }
         } else {
-            printf("Comando não reconhecido.\n");
+            printf("Command not recognized.\n");
         }
     }
 

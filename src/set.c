@@ -3,20 +3,21 @@
 // Data Struct chosen: AVL Tree
 
 struct node_ {
-    ITEM *item;
-    NODE *left;
-    NODE *right;
-    int height;
+    ITEM *item;    
+    NODE *left;     // pointer to left child
+    NODE *right;    // pointer to right child
+    int height;     // height of the node
 };
 struct set_ {
-    NODE *root;
-    int depth;
+    NODE *root;     // root node of the AVL tree Set
+    int depth;      // depth of the tree
 };
 
 // --------------------------------------------------------------------------------------------------------------------------
 //                                              auxiliar functions
 // --------------------------------------------------------------------------------------------------------------------------
 
+// recursively destroys the AVL tree
 void destroyAux(NODE *root) {
     if (root) {
         destroyAux(root->left);
@@ -26,11 +27,13 @@ void destroyAux(NODE *root) {
     }
 }
 
+// returns the height of a node or -1 if the node is NULL
 int height(NODE *root) {
     if (!root) return -1;
     return root->height;
 }
 
+// creates a new node with the provided item
 NODE *nodeCreator(ITEM *item) {
     NODE *node = (NODE *)malloc(sizeof(NODE));
     if (node) {
@@ -42,6 +45,7 @@ NODE *nodeCreator(ITEM *item) {
     return node;
 }
 
+// performs a right rotation on node a
 NODE *rightRotation(NODE *a) {
     NODE *b = a->left;
     a->left = b->right;
@@ -53,6 +57,7 @@ NODE *rightRotation(NODE *a) {
     return b;
 }
 
+// performs a left rotation on node a
 NODE *leftRotation(NODE *a) {
     NODE *b = a->right;
     a->right = b->left;
@@ -64,16 +69,19 @@ NODE *leftRotation(NODE *a) {
     return b;
 }
 
+// performs a left-right rotation on node a
 NODE *leftRightRotation(NODE *a) {
     a->left = leftRotation(a->left);
     return rightRotation(a);
 }
 
+// performs a right-left rotation on node a
 NODE *rightLeftRotation(NODE *a) {
     a->right = rightRotation(a->right);
     return leftRotation(a);
 }
 
+// inserts a node into the AVL tree, maintaining its balance
 NODE *insertNode(NODE *root, NODE *node) {
     if (!root)
         root = node;
@@ -84,6 +92,7 @@ NODE *insertNode(NODE *root, NODE *node) {
 
     root->height = max(height(root->left), height(root->right)) + 1;
 
+    // balance the tree after insertion
     if (height(root->left) - height(root->right) == 2) {
         if (getKey_item(node->item) < getKey_item(root->left->item))
             root = rightRotation(root);
@@ -99,13 +108,15 @@ NODE *insertNode(NODE *root, NODE *node) {
     return root;
 }
 
+// auxiliary function to remove an element from the AVL tree
 NODE *removeElementAux(NODE **root, int key) {
     NODE *p;
 
     if (!root)
         return NULL;
     else if (key == getKey_item((*root)->item)) {
-        // Case 1 and 2: Child exists or not
+        // handles deletion of a node with one or no children
+        // Case 1 and 2
         if (!(*root)->left || !(*root)->right) {
             p = *root;
             if (!(*root)->left)
@@ -116,8 +127,8 @@ NODE *removeElementAux(NODE **root, int key) {
             free(p);
             p = NULL;
         }
-
-        // Case 3: Both children exist
+        // handles deletion of a node with two children
+        // Case 3
         else {
             p = (*root)->left;
             while (p->right) p = p->right;
@@ -127,12 +138,12 @@ NODE *removeElementAux(NODE **root, int key) {
                 removeElementAux(&((*root)->left), getKey_item(p->item));
         }
     }
-
     else if (key < getKey_item((*root)->item))
         (*root)->left = removeElementAux(&((*root)->left), key);
     else
         (*root)->right = removeElementAux(&((*root)->right), key);
 
+    // balance the tree after deletion
     if ((*root)) {
         (*root)->height =
             max(height((*root)->left), height((*root)->right)) + 1;
@@ -159,7 +170,7 @@ NODE *removeElementAux(NODE **root, int key) {
 // forward declaration for recursive helper function
 void printSubtree(NODE *node);
 
-//  print a single node and its children
+// prints a single node and its children
 void printNode(NODE *node) {
     if (node == NULL) {
         return;
@@ -170,7 +181,7 @@ void printNode(NODE *node) {
     printSubtree(node);
 }
 
-// recursive helper function to print the children of a node
+// recursively prints the children of a node
 void printSubtree(NODE *node) {
     if (node == NULL) {
         return;
@@ -193,6 +204,7 @@ void printSubtree(NODE *node) {
     }
 }
 
+// adds all elements of a tree to the given set
 void aux_union(SET *uni, NODE *root) {
     ITEM *item = create_item(getKey_item(root->item));
     addElement_set(uni, item);
@@ -204,6 +216,7 @@ void aux_union(SET *uni, NODE *root) {
     }
 }
 
+// checks if a key is a member of the set represented by the AVL tree
 bool isMember_aux(NODE *node, int key) {
     if (node == NULL) {
         return false;  // reached leaf, element not found
@@ -220,12 +233,30 @@ bool isMember_aux(NODE *node, int key) {
     }
 }
 
+// helper function to perform the intersection operation by traversing the tree in order to avoid repetition
+void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
+    if (node == NULL) {
+        return;
+    }
+
+    inOrder_interSectionAux(node->left, intersection, other);
+
+    if (isMember_set(other, node->item)) {
+        ITEM *item = create_item(getKey_item(node->item));
+        addElement_set(intersection, item);
+    }
+
+    inOrder_interSectionAux(node->right, intersection, other);
+}
+
+
 
 
 // --------------------------------------------------------------------------------------------------------------------------
 //                                                   basic operations
 // --------------------------------------------------------------------------------------------------------------------------
 
+// creates a new set
 SET *create_set() {
     SET *sp = (SET *)malloc(sizeof(SET));
     if (sp) {
@@ -235,6 +266,7 @@ SET *create_set() {
     return sp;
 }
 
+// destroys a set and frees its memory
 bool destroy_set(SET **sp) {
     destroyAux((*sp)->root);
     free(*sp);
@@ -242,6 +274,7 @@ bool destroy_set(SET **sp) {
     return true;
 }
 
+// adds an element to the set
 bool addElement_set(SET *sp, ITEM *ele) {
     NODE *new;
     if (!sp) return false;
@@ -253,6 +286,7 @@ bool addElement_set(SET *sp, ITEM *ele) {
     return false;
 }
 
+// removes an element from the set
 bool removeElement_set(SET *sp, ITEM *ele) {
     if (!sp) return false;
     return removeElementAux(&(sp->root), getKey_item(ele));
@@ -268,30 +302,17 @@ void print_set(SET *set) {
 //                                               specific operations
 // --------------------------------------------------------------------------------------------------------------------------
 
+// checks if an element is a member of the set
 bool isMember_set(SET *sp, ITEM *ele) {
     return isMember_aux(sp->root, getKey_item(ele));
 }
 
+// creates a new set that is the union of two sets
 SET *union_set(SET *sp1, SET *sp2) {
     SET *uni = create_set();
     aux_union(uni, sp1->root);
     aux_union(uni, sp2->root);
     return uni;
-}
-
-void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
-    if (node == NULL) {
-        return;
-    }
-
-    inOrder_interSectionAux(node->left, intersection, other);
-
-    if (isMember_set(other, node->item)) {
-        ITEM *item = create_item(getKey_item(node->item));
-        addElement_set(intersection, item);
-    }
-
-    inOrder_interSectionAux(node->right, intersection, other);
 }
 
 SET *intersection_set(SET *sp1, SET *sp2) {

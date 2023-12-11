@@ -29,15 +29,22 @@ int main() {
     printf("\n");
 
     if(isMember_set(mySet3, create_item(11))) {
-        printf("%d is a member of the set\n");
+        printf("is a member of the set\n");
     } else {
-        printf("%d is not a member of the set\n");
+        printf("is not a member of the set\n");
     }
+
+    SET * mySet4 = intersection_set(mySet, mySet3);
+
+    print_set(mySet4);
 
 
     // Clean up
-    destroy_set(&mySet);
 
+    destroy_set(&mySet);
+    destroy_set(&mySet2);
+    destroy_set(&mySet3);
+    destroy_set(&mySet4);
     printf("\n");
     return 0;
 }

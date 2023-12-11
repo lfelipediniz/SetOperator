@@ -194,7 +194,8 @@ void printSubtree(NODE *node) {
 }
 
 void aux_union(SET *uni, NODE *root) {
-    addElement_set(uni, root->item);
+    ITEM *item = create_item(getKey_item(root->item));
+    addElement_set(uni, item);
     if (root->left != NULL) {
         aux_union(uni, root->left);
     }
@@ -218,6 +219,8 @@ bool isMember_aux(NODE *node, int key) {
         return isMember_aux(node->right, key);  // search in the right subtree
     }
 }
+
+
 
 // --------------------------------------------------------------------------------------------------------------------------
 //                                                   basic operations
@@ -276,4 +279,34 @@ SET *union_set(SET *sp1, SET *sp2) {
     return uni;
 }
 
+void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
+    if (node == NULL) {
+        return;
+    }
 
+    inOrder_interSectionAux(node->left, intersection, other);
+
+    if (isMember_set(other, node->item)) {
+        ITEM *item = create_item(getKey_item(node->item));
+        addElement_set(intersection, item);
+    }
+
+    inOrder_interSectionAux(node->right, intersection, other);
+}
+
+SET *intersection_set(SET *sp1, SET *sp2) {
+    if (!sp1 || !sp2) return NULL;
+
+    SET *smaller = (sp1->depth < sp2->depth) ? sp1 : sp2;
+    SET *other = (smaller == sp1) ? sp2 : sp1;
+    SET *intersection = create_set();
+
+    inOrder_interSectionAux(smaller->root, intersection, other);
+
+    if (intersection->root == NULL) { // No elements added
+        destroy_set(&intersection);
+        return NULL;
+    }
+
+    return intersection;
+}

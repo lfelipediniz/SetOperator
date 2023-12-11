@@ -42,7 +42,7 @@ bool delete_set(char *name) {
     return false;
 }
 
-bool nameAvail(char *name) { return find_set(name) != NULL; }
+bool nameAvail(char *name) { return find_set(name) == NULL; }
 
 void exitProgram() {
     int i;
@@ -59,7 +59,7 @@ int main() {
     int itemKey;
 
     while (true) {
-        printf("Digite o comando:\n");
+        printf("\n");
         scanf("%s", command);
 
         if (strcmp(command, "create-set") == 0) {
@@ -69,6 +69,11 @@ int main() {
             }
 
             scanf("%s", setName);
+            if (!nameAvail(setName)) {
+                printf("O nome '%s' já está em uso.\n", setName);
+                continue;
+            }
+
             sets[num_sets++] = create_set(setName);
         } else if (strcmp(command, "delete-set") == 0) {
             scanf("%s", setName);
@@ -112,7 +117,7 @@ int main() {
             char setNameA[50], setNameB[50], newName[50];
             scanf("%s %s %s", setNameA, setNameB, newName);
 
-            if (nameAvail(newName)) {
+            if (!nameAvail(newName)) {
                 printf("O nome '%s' já está em uso.\n", newName);
                 continue;
             }

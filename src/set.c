@@ -310,7 +310,8 @@ bool addElement_set(SET *sp, ITEM *ele) {
 // removes an element from the set
 bool removeElement_set(SET *sp, ITEM *ele) {
     if (!sp) return false;
-    return removeElementAux(&(sp->root), getKey_item(ele));
+    removeElementAux(&(sp->root), getKey_item(ele));
+    return true;
 }
 
 // wrapper function to print the entire tree

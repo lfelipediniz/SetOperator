@@ -1,6 +1,5 @@
 #include "set.h"
 
-
 #define MAX_SETS 10
 
 SET *sets[MAX_SETS];
@@ -9,8 +8,7 @@ int num_sets = 0;
 SET *find_set(char *name) {
     for (int i = 0; i < num_sets; i++) {
         char *setName = getName_set(sets[i]);
-        if (setName != NULL && strcmp(setName, name) == 0)
-            return sets[i];
+        if (setName != NULL && strcmp(setName, name) == 0) return sets[i];
     }
     return NULL;
 }
@@ -30,6 +28,29 @@ void list_sets() {
     }
 }
 
+bool delete_set(char *name) {
+    for (int i = 0; i < num_sets; i++) {
+        if (strcmp(getName_set(sets[i]), name) == 0) {
+            destroy_set(&sets[i]);
+            for (int j = i; j < num_sets - 1; j++) {
+                sets[j] = sets[j + 1];
+            }
+            num_sets--;
+            return true;
+        }
+    }
+    return false;
+}
+
+void exitProgram() {
+    int i;
+    for (i = 0; i < num_sets; i++) {
+        destroy_set(&sets[i]);
+    }
+
+    exit(0);
+}
+
 int main() {
     char command[100];
     char setName[50];
@@ -47,7 +68,32 @@ int main() {
 
             scanf("%s", setName);
             sets[num_sets++] = create_set(setName);
-        } else if (strcmp(command, "addItem-set") == 0) {
+        } else if (strcmp(command, "delete-set") == 0) {
+            scanf("%s", setName);
+            if (!delete_set(setName)) {
+                printf("Conjunto não encontrado.\n");
+            }
+        } else if (strcmp(command, "print-set") == 0) {
+            scanf("%s", setName);
+            SET *set = find_set(setName);
+            if (set != NULL) {
+                print_set(set);
+            } else {
+                printf("Conjunto não encontrado.\n");
+            }
+        } else if (strcmp(command, "removeItem-set") == 0) {
+            scanf("%s %d", setName, &itemKey);
+            SET *set = find_set(setName);
+            if (set != NULL) {
+                if (!removeElement_set(set, create_item(itemKey))) {
+                    printf("Falha ao remover o item ou item não encontrado.\n");
+                }
+            } else {
+                printf("Conjunto não encontrado.\n");
+            }
+        }
+
+        else if (strcmp(command, "addItem-set") == 0) {
             scanf("%s %d", setName, &itemKey);
             SET *set = find_set(setName);
             if (set != NULL) {
@@ -57,13 +103,11 @@ int main() {
             }
         } else if (strcmp(command, "list") == 0) {
             list_sets();
+        } else if (strcmp(command, "exit") == 0) {
+            exitProgram();
         }
-        // Adicione aqui mais comandos conforme necessário.
-    }
-
-    // Não esqueça de liberar a memória e destruir os conjuntos no final.
-    for (int i = 0; i < num_sets; i++) {
-        destroy_set(&sets[i]);
+        
+        
     }
 
     return 0;

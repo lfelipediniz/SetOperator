@@ -1,50 +1,54 @@
-#include "../inc/set.h"
+#include "set.h"
+#include <string.h>
+
+#define MAX_SETS 10
+
+SET *sets[MAX_SETS];
+int num_sets = 0;
+
+SET *find_set(char *name) {
+    for (int i = 0; i < num_sets; i++) {
+        char *setName = getName_set(sets[i]);
+        if (setName != NULL && strcmp(setName, name) == 0)
+            return sets[i];
+    }
+    return NULL;
+}
+
 
 int main() {
-    SET *mySet = create_set();
+    char command[100];
+    char setName[50];
+    int itemKey;
 
-    addElement_set(mySet, create_item(10));
-    addElement_set(mySet, create_item(20));
-    addElement_set(mySet, create_item(50));
-    addElement_set(mySet, create_item(2));
-    addElement_set(mySet, create_item(7));
-    addElement_set(mySet, create_item(51));
+    while (true) {
+        printf("Digite o comando:\n");
+        scanf("%s", command);
 
-    // print the tree of set indexes
-    print_set(mySet);
+        if (strcmp(command, "create-set") == 0) {
+            if (num_sets >= MAX_SETS) {
+                printf("Limite de conjuntos atingido.\n");
+                continue;
+            }
 
-    SET *mySet2 = create_set();
-
-    addElement_set(mySet2, create_item(10));
-    addElement_set(mySet2, create_item(233));
-    addElement_set(mySet2, create_item(32));
-
-
-    print_set(mySet2);
-
-    SET * mySet3 = union_set(mySet, mySet2);
-
-    print_set(mySet3);
-
-    printf("\n");
-
-    if(isMember_set(mySet3, create_item(11))) {
-        printf("is a member of the set\n");
-    } else {
-        printf("is not a member of the set\n");
+            scanf("%s", setName);
+            sets[num_sets++] = create_set(setName);
+        } else if (strcmp(command, "addItem-set") == 0) {
+            scanf("%s %d", setName, &itemKey);
+            SET *set = find_set(setName);
+            if (set != NULL) {
+                addElement_set(set, create_item(itemKey));
+            } else {
+                printf("Conjunto não encontrado.\n");
+            }
+        }
+        // Adicione aqui mais comandos conforme necessário.
     }
 
-    SET * mySet4 = intersection_set(mySet, mySet3);
+    // Não esqueça de liberar a memória e destruir os conjuntos no final.
+    for (int i = 0; i < num_sets; i++) {
+        destroy_set(&sets[i]);
+    }
 
-    print_set(mySet4);
-
-
-    // Clean up
-
-    destroy_set(&mySet);
-    destroy_set(&mySet2);
-    destroy_set(&mySet3);
-    destroy_set(&mySet4);
-    printf("\n");
     return 0;
 }

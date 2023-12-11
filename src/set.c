@@ -3,14 +3,15 @@
 // Data Struct chosen: AVL Tree
 
 struct node_ {
-    ITEM *item;    
-    NODE *left;     // pointer to left child
-    NODE *right;    // pointer to right child
-    int height;     // height of the node
+    ITEM *item;
+    NODE *left;   // pointer to left child
+    NODE *right;  // pointer to right child
+    int height;   // height of the node
 };
 struct set_ {
-    NODE *root;     // root node of the AVL tree Set
-    int depth;      // depth of the tree
+    NODE *root;  // root node of the AVL tree Set
+    int depth;   // depth of the tree
+    char *name;  // name of the set
 };
 
 // --------------------------------------------------------------------------------------------------------------------------
@@ -137,8 +138,7 @@ NODE *removeElementAux(NODE **root, int key) {
             (*root)->left =
                 removeElementAux(&((*root)->left), getKey_item(p->item));
         }
-    }
-    else if (key < getKey_item((*root)->item))
+    } else if (key < getKey_item((*root)->item))
         (*root)->left = removeElementAux(&((*root)->left), key);
     else
         (*root)->right = removeElementAux(&((*root)->right), key);
@@ -233,7 +233,8 @@ bool isMember_aux(NODE *node, int key) {
     }
 }
 
-// helper function to perform the intersection operation by traversing the tree in order to avoid repetition
+// helper function to perform the intersection operation by traversing the tree
+// in order to avoid repetition
 void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
     if (node == NULL) {
         return;
@@ -249,19 +250,17 @@ void inOrder_interSectionAux(NODE *node, SET *intersection, SET *other) {
     inOrder_interSectionAux(node->right, intersection, other);
 }
 
-
-
-
 // --------------------------------------------------------------------------------------------------------------------------
 //                                                   basic operations
 // --------------------------------------------------------------------------------------------------------------------------
 
 // creates a new set
-SET *create_set() {
+SET *create_set(char *name) {
     SET *sp = (SET *)malloc(sizeof(SET));
     if (sp) {
         sp->root = NULL;
         sp->depth = -1;
+        sp->name = name;
     }
     return sp;
 }
@@ -298,6 +297,13 @@ void print_set(SET *set) {
     printNode(set->root);
 }
 
+// returns the name of the set
+char *getName_set(SET *set) {
+    if (set != NULL) return set->name;
+
+    return NULL;
+}
+
 // --------------------------------------------------------------------------------------------------------------------------
 //                                               specific operations
 // --------------------------------------------------------------------------------------------------------------------------
@@ -308,23 +314,23 @@ bool isMember_set(SET *sp, ITEM *ele) {
 }
 
 // creates a new set that is the union of two sets
-SET *union_set(SET *sp1, SET *sp2) {
-    SET *uni = create_set();
+SET *union_set(SET *sp1, SET *sp2, char *name) {
+    SET *uni = create_set(name);
     aux_union(uni, sp1->root);
     aux_union(uni, sp2->root);
     return uni;
 }
 
-SET *intersection_set(SET *sp1, SET *sp2) {
+SET *intersection_set(SET *sp1, SET *sp2, char *name) {
     if (!sp1 || !sp2) return NULL;
 
     SET *smaller = (sp1->depth < sp2->depth) ? sp1 : sp2;
     SET *other = (smaller == sp1) ? sp2 : sp1;
-    SET *intersection = create_set();
+    SET *intersection = create_set(name);
 
     inOrder_interSectionAux(smaller->root, intersection, other);
 
-    if (intersection->root == NULL) { // No elements added
+    if (intersection->root == NULL) {  // No elements added
         destroy_set(&intersection);
         return NULL;
     }

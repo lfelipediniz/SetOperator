@@ -42,6 +42,8 @@ bool delete_set(char *name) {
     return false;
 }
 
+bool nameAvail(char *name) { return find_set(name) != NULL; }
+
 void exitProgram() {
     int i;
     for (i = 0; i < num_sets; i++) {
@@ -105,9 +107,44 @@ int main() {
             list_sets();
         } else if (strcmp(command, "exit") == 0) {
             exitProgram();
+        } else if (strcmp(command, "union-set") == 0 ||
+                   strcmp(command, "intersection-set") == 0) {
+            char setNameA[50], setNameB[50], newName[50];
+            scanf("%s %s %s", setNameA, setNameB, newName);
+
+            if (nameAvail(newName)) {
+                printf("O nome '%s' já está em uso.\n", newName);
+                continue;
+            }
+
+            SET *setA = find_set(setNameA);
+            SET *setB = find_set(setNameB);
+
+            if (setA == NULL || setB == NULL) {
+                printf("Um ou ambos os conjuntos não foram encontrados.\n");
+                continue;
+            }
+
+            SET *newSet = NULL;
+            if (strcmp(command, "union-set") == 0) {
+                newSet = union_set(setA, setB, newName);
+            } else if (strcmp(command, "intersection-set") == 0) {
+                newSet = intersection_set(setA, setB, newName);
+            }
+
+            if (newSet != NULL && num_sets < MAX_SETS) {
+                sets[num_sets++] = newSet;
+            } else {
+                printf(
+                    "Falha ao criar o conjunto ou limite de conjuntos "
+                    "atingido.\n");
+                if (newSet != NULL) {
+                    destroy_set(&newSet);
+                }
+            }
+        } else {
+            printf("Comando não reconhecido.\n");
         }
-        
-        
     }
 
     return 0;

@@ -1,0 +1,49 @@
+Trabalho feito por Nicolas Carreiro Rodrigues (N⁰USP 14600801) e Luiz Felipe Diniz Costa (N⁰USP 13782032)
+
+
+Para a solução do problema envolvendo a Teoria dos Conjuntos dentro das complexidades exigidas, foi escolhida a estrutura de  árvores AVL.
+
+A principal justificativa para essa escolha é a baixa complexidade de suas operações, uma vez que a estrutura da árvore AVL possui 
+complexidade de O(Log(n)) para busca, inserção e remoção. Assim, como as operações de busca e inserção serão utilizadas varias vezes,
+seja pelo pedido do usuario, ou, principalmente, quando forem usandas as funções de intersecção e união
+
+
+Complexidade das funções básicas:
+
+create_set = O(1) // cria o conjunto em uma arvore AVL
+destroy_set = O(n) // destroi o conjunto e todos os seus elementos/raizes
+addElement_set = O(logn) // inclui um elemento ao conjunto
+removeElement_set = O(logn) // remeve um elemento do conjunto
+print_set = O(n) // imprime todos os valores de um conjunto em ordem crescente
+getName_set = O(1) // retorna o nome do conjunto, adicionado para garantir um controle mais intuitivo do usuario com os conjuntos, 
+                   // assim o usuario não precisa de decorar os ids do conjunto, e pode dar um nome para cada conjunto
+
+
+Complexidade das funções específicas:
+
+isMember_set = O(logn) // função de busca da arvore binaria
+union_set = O(nlogn) // função que faz a união de dois conjuntos em um terceiro conjunto, adicinando todos os elementos dos dois conjuntos a esse terceiro
+                     // a união usa a função addElement_set, com O(logn), n vezes, assim tendo O(nlogn)
+intersection_set = O(nlogn) // função que cria um conjunto com a intersecção de dois outros conjuntos
+                            // a intersecção passa por n elementos de um dos conjuntos e busca(O(logn)) eles no segundo conjunto, assim tento O(nlogn)
+
+
+
+
+Para rodar o programa usando os casos testes use o script .sh da seguinte forma:
+
+1. Compilar e rodar o programa usando a Makefile fornecida
+
+    ```bash
+    sudo chmod +x runTests.sh
+    ```
+
+2. Executar os casos testes
+
+    ```bash
+    ./runTests.sh
+    ```
+
+Para adicionar casos testes basta colocar o arquivo teste inN.txt e outN.txt na pasta test, com N sendo o numero do caso teste
+O script .sh roda todos os casos testes nessa pasta, dizendo qual passou e qual não passou, e, para os que não passou, 
+mostra a saida do programa e a saida esperada

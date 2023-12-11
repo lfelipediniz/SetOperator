@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# To run all test cases, type this command in the terminal
+
+# sudo chmod +x runTests.sh
+
+# Then, just type:
+
+# ./runTests.sh
+
 # compile the program
 make
 

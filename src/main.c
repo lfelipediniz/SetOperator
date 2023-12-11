@@ -90,6 +90,8 @@ union-set <name of set A> <name of set B> <union name>
 
 intersection-set <name of set A> <name of set B> <intersection name>
 
+if you want to know if an item belongs to the set, do the following command
+belong-set <set name> <item key>
 
 The user can also list the sets created with the command: list
 and exit the program whenever you want with: exit
@@ -187,7 +189,23 @@ int main() {
                     destroy_set(&newSet);
                 }
             }
-        } else {
+        } else if(strcmp(command, "belong-set") == 0){
+            scanf("%s %d", setName, &itemKey);
+            SET *set = find_set(setName);
+            if (set != NULL) {
+                if (isMember_set(set, create_item(itemKey))) {
+                    printf("The item belongs to the set.\n");
+                }
+                else {
+                    printf("The item does not belong to the set.\n");
+                }
+            } else {
+                printf("Set not found.\n");
+            }
+        }
+        
+        
+        else {
             printf("Command not recognized.\n");
         }
     }

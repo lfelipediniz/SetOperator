@@ -1,0 +1,17 @@
+create-set Set1
+create-set Set2
+create-set Set3
+addItem-set Set1 1, 2, 3
+addItem-set Set2 3, 4, 5
+removeItem-set Set1 2
+removeItem-set Set2 5
+list-set
+union-set Set1 Set2 UnionSet
+intersection-set Set1 Set2 IntersectSet
+belong-set Set1 1
+belong-set Set2 5
+delete-set Set1
+delete-set Set4
+exit
+
+Tests if the program properly creates, adds items, merge and intersect sets

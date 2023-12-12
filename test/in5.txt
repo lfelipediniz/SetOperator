@@ -1,0 +1,32 @@
+create-set SetA
+addItem-set SetA 1, 2, 3
+print-set SetA
+create-set SetA
+delete-set SetB
+create-set SetC
+delete-set SetC
+print-set SetC
+create-set SetB
+addItem-set SetB 1, 2, 3
+removeItem-set SetA 2, 4
+print-set SetA
+addItem-set SetA 1, 2, 3
+addItem-set SetB 3, 4, 5
+union-set SetA SetB UnionSet
+print-set UnionSet
+addItem-set SetA 1, 2, 3
+addItem-set SetB 3, 4, 5
+intersection-set SetA SetB IntersectSet
+print-set IntersectSet
+belong-set SetA 2
+belong-set SetA 4
+create-set Set1
+create-set Set2
+create-set Set3
+create-set Set4
+create-set Set5
+create-set Set6
+create-set
+exit
+
+Tests if the program properly create, delete, print, merge and intersect sets

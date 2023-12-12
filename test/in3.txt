@@ -3,3 +3,4 @@ addItem-set veryNum -5, -41, 62, -26, 69, 73, -10, 25, -71, 2, 56, 9, 50, 83, -4
 print-set veryNum
 exit
 
+Tests if the itens are correctly being added to the set

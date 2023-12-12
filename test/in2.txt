@@ -13,4 +13,4 @@ print-set conjuntoIntersection
 print-set conjuntoUnion
 exit
 
-Here you can type what you want to explain why the program has already been closed
+Tests the creation of sets, the verification if an item is on the set, the intersection function, the union function and the print-set function

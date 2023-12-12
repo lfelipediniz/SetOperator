@@ -14,7 +14,7 @@ create_set = O(1) // cria o conjunto em uma arvore AVL
 destroy_set = O(n) // destroi o conjunto e todos os seus elementos/raizes
 addElement_set = O(logn) // inclui um elemento ao conjunto
 removeElement_set = O(logn) // remeve um elemento do conjunto
-print_set = O(n) // imprime todos os valores de um conjunto em ordem crescente
+print_set = O(n) // imprime a arvore de maneira indexada por conjunto
 getName_set = O(1) // retorna o nome do conjunto, adicionado para garantir um controle mais intuitivo do usuario com os conjuntos, 
                    // assim o usuario não precisa de decorar os ids do conjunto, e pode dar um nome para cada conjunto
 

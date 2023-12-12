@@ -32,7 +32,7 @@ intersection_set = O(nlogn) // função que cria um conjunto com a intersecção
 
 Para rodar o programa usando os casos testes use o script .sh da seguinte forma:
 
-1. Compilar e rodar o programa usando a Makefile fornecida
+1. Compilar e rodar os testes do programa usando a Makefile fornecida
 
     ```bash
     sudo chmod +x runTests.sh

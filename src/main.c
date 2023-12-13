@@ -225,9 +225,9 @@ int main() {
             SET *set = find_set(setName);
             if (set != NULL) {
                 if (isMember_set(set, create_item(itemKey))) {
-                    printf("The item belongs to the set.\n");
+                    printf("The item belongs to the set.");
                 } else {
-                    printf("The item does not belong to the set.\n");
+                    printf("The item does not belong to the set.");
                 }
             } else {
                 printf("Set not found.\n");

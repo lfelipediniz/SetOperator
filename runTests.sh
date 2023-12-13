@@ -1,11 +1,8 @@
 #!/bin/bash
 
 # To run all test cases, type this command in the terminal
-
 # sudo chmod +x runTests.sh
-
 # Then, just type:
-
 # ./runTests.sh
 
 # compile the program
@@ -31,23 +28,28 @@ for input_file in test/in*.txt; do
     fi
 
     # run the program with the input file and save the output to a temporary file
-    ./out/main < $input_file > test/temp_out.txt
-
-
-    # compare the program's output with the expected output
-    if diff -w -B -Z test/temp_out.txt $output_file > /dev/null; then
-        echo "Test $test_number passed"
-        ((passed++))
+    # implementing a 10-second timeout using 'timeout' command
+    if timeout 10s ./out/main < $input_file > test/temp_out.txt; then
+        # compare the program's output with the expected output
+        if diff -w -B -Z test/temp_out.txt $output_file > /dev/null; then
+            echo "Test $test_number passed"
+            ((passed++))
+        else
+            echo "Test $test_number failed"
+            ((failed++))
+            failed_tests+=($input_file)
+            echo "Failed Test $test_number:"
+            echo "Output Produced:"
+            cat test/temp_out.txt
+            echo "Expected Output:"
+            cat $output_file
+            echo "-------------------------"
+        fi
     else
-        echo "Test $test_number failed"
+        # if the program did not finish before the timeout or if 'timeout' command fails
+        echo "Test $test_number failed (timeout error)"
         ((failed++))
         failed_tests+=($input_file)
-        echo "Failed Test $test_number:"
-        echo "Output Produced:"
-        cat test/temp_out.txt
-        echo "Expected Output:"
-        cat $output_file
-        echo "-------------------------"
     fi
 done
 

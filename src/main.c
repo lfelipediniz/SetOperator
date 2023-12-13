@@ -28,7 +28,7 @@ SET *find_set(char *name) {
 // list all sets created
 void list_sets() {
     if (num_sets == 0) {
-        printf("No sets have been created yet.\n");
+        printf("No sets have been created yet.");
         return;
     }
 
@@ -88,7 +88,7 @@ void removeMultipleItems(SET *set, char *items) {
         if (isMember_set(set, item)) {
             removeElement_set(set, item);
         } else {
-            printf("Item %d not found in set.\n", itemKey);
+            printf("Item %d not found in set.", itemKey);
         }
         token = strtok(NULL, ", ");
     }
@@ -133,13 +133,13 @@ int main() {
 
         if (strcmp(command, "create-set") == 0) {
             if (num_sets >= MAX_SETS) {
-                printf("Set limit reached!\n");
+                printf("Set limit reached!");
                 continue;
             }
 
             scanf("%s", setName);
             if (!nameAvail(setName)) {
-                printf("The name '%s' is already in use.\n", setName);
+                printf("The name '%s' is already in use.", setName);
                 continue;
             }
 
@@ -155,7 +155,7 @@ int main() {
             if (set != NULL) {
                 print_set(set);
             } else {
-                printf("Set not found.\n");
+                printf("Set not found.");
             }
         }
 
@@ -201,7 +201,7 @@ int main() {
             SET *setB = find_set(setNameB);
 
             if (setA == NULL || setB == NULL) {
-                printf("One or both sets were not found.\n");
+                printf("One or both sets were not found.");
                 continue;
             }
 
@@ -215,7 +215,7 @@ int main() {
             if (newSet != NULL && num_sets < MAX_SETS) {
                 sets[num_sets++] = newSet;
             } else {
-                printf("Failed to create set or set limit hit.\n");
+                printf("Failed to create set or set limit hit.");
                 if (newSet != NULL) {
                     destroy_set(&newSet);
                 }
@@ -230,12 +230,12 @@ int main() {
                     printf("The item does not belong to the set.");
                 }
             } else {
-                printf("Set not found.\n");
+                printf("Set not found.");
             }
         }
 
         else {
-            printf("Command not recognized.\n");
+            printf("Command not recognized.");
         }
     }
 

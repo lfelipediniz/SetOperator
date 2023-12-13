@@ -1,0 +1,11 @@
+create-set A
+addItem-set A 1, 2, 3, 4, 6, 5, 8, 7, 9, 11, 12, 10, 15, 14, 13, 18, 16, 17
+
+print-set A
+
+removeItem-set A 8, 4, 7, 200
+print-set A
+
+exit
+
+Test AVL removal
